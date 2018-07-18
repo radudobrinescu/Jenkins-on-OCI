@@ -23,7 +23,7 @@ pipeline {
     }
     stage('Push image to OCIR') {
       steps {
-        sh 'sudo docker login -u \'ptsbm02/radu.dobrinescu@oracle.com\' -p \'_QgxIb5H)zmmBAzEX#ll\'fra.ocir.io'
+        sh 'sudo docker login -u \'ptsbm02/radu.dobrinescu@oracle.com\' -p \'_QgxIb5H)zmmBAzEX#ll\' fra.ocir.io'
         sh 'sudo docker tag customnginx:1 fra.ocir.io/ptsbm02/nginx:custom'
         sh 'sudo docker push fra.ocir.io/ptsbm02/nginx:custom'
       }
