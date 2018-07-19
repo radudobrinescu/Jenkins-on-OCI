@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Build docker image') {
       steps {
-        sh 'sudo docker build . -t devopsdemoapp:1'
+        sh 'sudo docker build . -t fra.ocir.io/ptsbm02/devopsdemoapp:1'
       }
     }
     stage('Test image') {
