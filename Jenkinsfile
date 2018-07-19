@@ -24,7 +24,10 @@ pipeline {
     }
     stage('Deploy to Stage'){
       steps {
-       sh 'kubectl --namespace=stage apply -f kubernetes.yml'
+       kubernetesDeploy configs: 'kubernetes.yml', 
+         dockerCredentials: [[credentialsId: 'fra.ocir.io/ptsbm02', url: 'http://fra.ocir.io/ptsbm02']], 
+         kubeconfigId: 'kubeconfig_new', 
+         secretName: 'ptsbm02'        
       }
     }
     stage('Confirm'){
