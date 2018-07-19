@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sample-app-backend
+  labels:
+    app: sample-app
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+
+    spec:
+      containers:
+      - name: sample-app
+        image: fra.ocir.io/ptsbm02/appnew:1
+        imagePullPolicy: Always
+        ports:
+        - name: sample-app
+          containerPort: 5000
+          protocol: TCP
+          #command: ['sh','-c','pyton app.py; sleep infinity']
+      imagePullSecrets:
+        - name: ptsbm02
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-app-backend-svc
+  labels:
+    app: sample-app
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+    name: sample-app-backend-svc
+  selector:
+    app: sample-app
+  type: LoadBalancer
