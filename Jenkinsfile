@@ -6,14 +6,9 @@ pipeline {
 
   }
   stages {
-    stage('Fetch dependencies') {
-      steps {
-        sh 'sudo docker pull nginx:latest'
-      }
-    }
     stage('Build docker image') {
       steps {
-        sh 'sudo docker build . -t customnginx:1'
+        sh 'sudo docker build . -t devopsdemoapp:1'
       }
     }
     stage('Test image') {
@@ -24,8 +19,25 @@ pipeline {
     stage('Push image to OCIR') {
       steps {
         sh 'sudo docker login -u \'ptsbm02/radu.dobrinescu@oracle.com\' -p \'_QgxIb5H)zmmBAzEX#ll\' fra.ocir.io'
-        sh 'sudo docker tag customnginx:1 fra.ocir.io/ptsbm02/nginx:custom'
-        sh 'sudo docker push fra.ocir.io/ptsbm02/nginx:custom'
+        sh 'sudo docker push fra.ocir.io/ptsbm02/devopsdemoapp:1'
+      }
+    }
+    stage('Deploy to Stage'){
+      steps {
+       sh 'kubectl --namespace=stage apply -f kubernetes.yml'
+      }
+    }
+    stage('Confirm'){
+      steps {
+       mail (to: 'radu.dobrinescu@oracle.com',
+         subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
+         body: "Please go to ${env.BUILD_URL}.");
+       input("Ready to promote to Production?")
+      }
+    }
+    stage('Deploy to Production'){
+      steps {
+       sh 'kubectl --namespace=production apply -f kubernetes.yml'
       }
     }
   }
