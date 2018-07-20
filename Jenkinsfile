@@ -27,7 +27,7 @@ pipeline {
        kubernetesDeploy configs: 'kubernetes.yml', 
          dockerCredentials: [[credentialsId: 'fra.ocir.io/ptsbm02', url: 'https://fra.ocir.io/ptsbm02']], 
          secretName: 'ptsbm02',
-         kubeConfig: [path: '/home/opc/.kube'], kubeconfigId: 'kubeconfig_new'        
+         kubeConfig: [path: '/home/opc/.kube/kubeconfig_new'], kubeconfigId: 'kubeconfig_new'        
       }
     }
     stage('Confirm'){
