@@ -27,6 +27,7 @@ pipeline {
 		step('Deploy to stage'){
 			sh 'kubectl --namespace=stage apply -f kubernetes.yml'
 		}
+	 }
 	// some block
 	}
     stage('Confirm'){
