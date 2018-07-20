@@ -23,13 +23,10 @@ pipeline {
       }
     }
     stage('Deploy to Stage'){
-	 withKubeConfig(credentialsId: 'kube', serverUrl: 'https://c4tinddgntd.eu-frankfurt-1.clusters.oci.oraclecloud.com:6443') {
-		steps {
-			sh 'kubectl --namespace=stage apply -f kubernetes.yml'
-		}
-	 }
-	// some block
+	steps {
+	 sh 'kubectl --namespace=stage apply -f kubernetes.yml'
 	}
+    }
     stage('Confirm'){
       steps {
        mail (to: 'radu.dobrinescu@oracle.com',
