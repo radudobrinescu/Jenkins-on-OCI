@@ -18,7 +18,7 @@ pipeline {
     }
     stage('Push image to OCIR') {
       steps {
-        sh 'sudo docker login -u \'ptsbm02/radu.dobrinescu@oracle.com\' -p \'_QgxIb5H)zmmBAzEX#ll\' fra.ocir.io'
+        sh 'sudo docker login -u \'ptsbm02/radu.dobrinescu@oracle.com\' -p \$TOKEN fra.ocir.io'
         sh 'sudo docker push fra.ocir.io/ptsbm02/devopsdemoapp:1'
       }
     }
